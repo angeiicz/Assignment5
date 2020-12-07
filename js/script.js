@@ -83,10 +83,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
   allCategoriesUrl,
-  function (responseText) {
-    document.querySelector("#main-content")
-    .innerHTML = responseText;
-  }, // ***** <---- TODO: STEP 1: Substitute [...] ******
+  buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Substitute [...] ******
   true); // Explicitly setting the flag to get JSON from server processed into an object literal
 });
 // *** finish **
@@ -100,8 +97,7 @@ function buildAndShowHomeHTML (categories) {
   $ajaxUtils.sendGetRequest(
     homeHtmlUrl,
     function (homeHtml) {
-      var randomCategory = chooseRandomCategory(categories);
-      var chosenCategoryShortName = "'" + randomCategory.short_name + "'";
+      var chosenCategoryShortName = "'" + chooseRandomCategory(categories).short_name + "'";
       var homeHtmlToInsertIntoMainPage = insertProperty(
         homeHtml,"randomCategoryShortName",chosenCategoryShortName);
       insertHtml("#main-content",homeHtmlToInsertIntoMainPage);
@@ -145,7 +141,6 @@ function chooseRandomCategory (categories) {
   // return category object with that randomArrayIndex
   return categories[randomArrayIndex];
 }
-
 
 // Load the menu categories view
 dc.loadMenuCategories = function () {
